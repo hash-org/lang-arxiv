@@ -1,0 +1,42 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Haskell template
+dist
+dist-*
+cabal-dev
+*.o
+*.hi
+*.hie
+*.chi
+*.chs.h
+*.dyn_o
+*.dyn_hi
+.hpc
+.hsenv
+.cabal-sandbox/
+cabal.sandbox.config
+*.prof
+*.aux
+*.hp
+*.eventlog
+.stack-work/
+cabal.project.local
+cabal.project.local~
+.HTF/
+.ghc.environment.*
+
+# IDEA and other IDE config sources
+.idea
+.vscode
+
+# report generated files
+report/*
+!report/report.texexamples/
+examples/a.hash
+examples/b.hash
+examples/big_file.hash
+examples/big_file.py
+examples/c.hash
+examples/fib.hash
+examples/hello_world
+examples/hello_world.hash
+examples/module_with_cyclic_imports.hash

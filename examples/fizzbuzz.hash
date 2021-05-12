@@ -1,0 +1,19 @@
+let i = 30;
+
+let fizz_buzz = (input: int): Option<str> => {
+    if input % 15 == 0 {
+        Some("FizzBuzz")
+    } else if input % 3 == 0 {
+        Some("Fizz")
+    } else if input % 5 == 0 {
+        Some("Buzz")
+    } else {
+        None
+    }
+};
+
+print("Running fizzbuzz for " + conv(i));
+print(match fizz_buzz(i) {
+    Some(i) => i;
+    None => "Unmatched";
+});

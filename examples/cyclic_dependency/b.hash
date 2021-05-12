@@ -1,0 +1,2 @@
+// b.hash
+let a = import("a");

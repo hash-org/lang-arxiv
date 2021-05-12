@@ -1,0 +1,146 @@
+cabal-version:      >=1.10
+name:               hash
+version:            0.0.1
+synopsis:           The Hash Programming language
+bug-reports:        https://github.com/feds01/hash/issues
+license:            MIT
+author:             The Hash Language authors
+copyright:          All rights reserved 2021 (c) The Hash Language authors
+build-type:         Simple
+extra-source-files: README.md, CHANGELOG.md
+
+
+Flag debug {
+  Description: Enable debug support
+  Default:     False
+  Manual:      True
+}
+
+executable hash
+    main-is:          Main.hs
+    default-extensions: LambdaCase
+    other-modules: Embed,
+                   Error,
+                   Interpreter,
+                   Panic,
+                   Parse.Ast,
+                   Parse.Boot,
+                   Parse.Reading,
+                   Parse.Lexer,
+                   Paths_hash,
+                   Pipeline,
+                   Report,
+                   Runtime.Boot,
+                   Runtime.Heap,
+                   Runtime.Intrinsics,
+                   Runtime.Primitives,
+                   Runtime.Scope,
+                   Runtime.Stack,
+                   Runtime.VM,
+                   Typecheck.Boot,
+                   Typecheck.Error,
+                   Typecheck.Infer,
+                   Typecheck.Traverse,
+                   Utils
+
+    build-depends: base >= 4.9 && < 5,
+                   bytestring,
+                   cmdargs,
+                   containers,
+                   directory,
+                   errors,
+                   file-embed,
+                   filepath,
+                   hashable,
+                   haskeline,
+                   lens,
+                   megaparsec,
+                   monadlist,
+                   mtl,
+                   ordered-containers,
+                   pretty-simple,
+                   process,
+                   template-haskell,
+                   text,
+                   th-lift-instances,
+                   unordered-containers,
+                   vector
+
+    hs-source-dirs:   src
+    default-language: Haskell2010
+    if flag(debug)
+      -- debug build
+      ghc-options:
+        -prof
+        -fprof-auto-calls 
+    else 
+      -- release build
+      ghc-options:
+        -O2
+        -Wall
+        -j
+        -Werror
+        -fno-warn-name-shadowing
+        -fno-warn-missing-signatures
+
+test-suite test
+  type:           exitcode-stdio-1.0
+  default-extensions: LambdaCase
+  hs-source-dirs: tests
+                  src
+
+  other-modules: AllTests,
+                 Embed,
+                 Error,
+                 Panic,
+                 Parse.Ast,
+                 Parse.Boot,
+                 Parse.Reading,
+                 Parse.Lexer,
+                 Pipeline,
+                 Report,
+                 Runtime.Boot,
+                 Runtime.Heap,
+                 Runtime.Intrinsics,
+                 Runtime.Primitives,
+                 Runtime.Scope,
+                 Runtime.Stack,
+                 Runtime.VM,
+                 Typecheck.Boot,
+                 Typecheck.Error,
+                 Typecheck.Infer,
+                 Typecheck.Traverse,
+                 TestAst,
+                 TestIntrinsics,
+                 TestLexer,
+                 TrivialParserTests,
+                 TestUtils,
+                 TestVM,
+                 Utils
+
+  Main-is:       TestMain.hs
+  build-depends: base >= 4.9 && < 5,
+                 HUnit,
+                 QuickCheck,
+                 bytestring,
+                 containers,
+                 directory,
+                 errors,
+                 file-embed,
+                 filepath,
+                 hashable,
+                 lens,
+                 lens,
+                 megaparsec,
+                 monadlist,
+                 mtl,
+                 ordered-containers,
+                 template-haskell,
+                 test-framework,
+                 test-framework-hunit,
+                 text,
+                 pretty-simple,
+                 th-lift-instances,
+                 unordered-containers,
+                 vector
+  default-language: Haskell2010

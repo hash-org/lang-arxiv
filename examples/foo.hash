@@ -1,0 +1,11 @@
+print("Hello, world!");
+
+let io = import("../stdlib/io.hash");
+
+let x = io::get();
+
+let conv<Result<A, B>, str> where conv<A, str>, conv<B, str> = (res: Result<A, B>) => {
+    match res { Ok(a) => "Ok(" + conv<A, str>(a) + ")"; Err(b) => "Err(" + conv<B, str>(b) + ")"; } 
+};
+
+print(conv(x));

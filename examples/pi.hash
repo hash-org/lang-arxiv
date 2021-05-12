@@ -1,0 +1,12 @@
+let iters = 10000.0;
+
+let i = 1.0;
+let q_pi = 0.0;
+let sign = 1.0;
+while i < iters {
+    q_pi += sign * (1.0 / (2.0 * i - 1.0));
+    sign = -sign;
+    i += 1.0;
+}
+
+print("Pi to " + conv(iters) + " iterations is " + conv(q_pi * 4.0) + ".");

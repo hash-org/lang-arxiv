@@ -1,0 +1,62 @@
+name: Haskell CI
+
+on: [push, pull_request]
+
+env:
+  GHC_VERSION: '8.10.3'
+  CABAL_VERSION: '3.2'
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: mrkkrp/ormolu-action@v2
+
+  lint: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Lint
+        run: |
+           curl -sSL https://raw.github.com/ndmitchell/hlint/master/misc/run.sh >> ./hlint
+           sh hlint src
+           sh hlint tests
+
+  build:
+    runs-on: ubuntu-latest
+
+    needs: 
+      - format
+      - lint
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-haskell@v1
+      with:
+        ghc-version: ${{ env.GHC_VERSION }}
+        cabal-version: ${{ env.CABAL_VERSION }}
+
+    - name: Cache
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-cabal
+      with:
+        path: ~/.cabal
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cabal') }}-${{ hashFiles('**/cabal.project') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Install dependencies
+      run: |
+        cabal update
+        cabal build --only-dependencies --enable-tests --enable-benchmarks
+
+    - name: Build
+      run: cabal build --enable-tests --enable-benchmarks all
+
+    - name: Run tests
+      run: cabal test all
